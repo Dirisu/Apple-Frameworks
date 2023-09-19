@@ -1,21 +1,20 @@
 //
-//  AFButtonView.swift
+//  AFButton.swift
 //  Apple-Frameworks
 //
-//  Created by Marvellous Dirisu on 17/09/2023.
+//  Created by Marvellous Dirisu on 19/09/2023.
 //
 
 import SwiftUI
 
-struct AFButtonView: View {
+struct AFButton: View {
     
     var title: String
     var buttonColor: Color
+    var action: () -> Void  // Add this line
     
     var body: some View {
-        Button {
-            
-        } label: {
+        Button(action: action) {  // Modify this line
             Text(title)
                 .font(.title2)
                 .fontWeight(.semibold)
@@ -24,11 +23,5 @@ struct AFButtonView: View {
                 .foregroundColor(.white)
                 .cornerRadius(10)
         }
-    }
-}
-
-struct AFButtonView_Previews: PreviewProvider {
-    static var previews: some View {
-        AFButtonView(title: "Text Title", buttonColor: Color.red)
     }
 }

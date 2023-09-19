@@ -10,24 +10,14 @@ import SwiftUI
 struct FrameworkDetailView: View {
     
     var framework: Framework
+    
     @Binding var isShowingDetailView: Bool
+    @State private var isShowingSafariView = false
     
     var body: some View {
         VStack {
-            // sets button in Hstack to move alignment
-            HStack {
-                Spacer()
-                
-                Button {
-                    isShowingDetailView = false
-                } label: {
-                    Image(systemName: "xmark")
-                        .foregroundColor(Color(.label))
-                        .imageScale(.large)
-                        .frame(width: 44, height: 44)
-                }
-            }
-            .padding()
+            
+            XDismissButton(isShowingDetailView: $isShowingDetailView)
             
             Spacer()
             
@@ -40,13 +30,24 @@ struct FrameworkDetailView: View {
             Spacer()
             
             Button {
-                
+                //isShowingSafariView = true
             } label: {
-                AFButtonView(title: "Learn More", buttonColor: Color.red)
+                AFButton(title: "Learn More", buttonColor: Color.red, action: {
+                    // Your action here
+                    isShowingSafariView = true
+                })
             }
 
-
         }
+//        .sheet(isPresented: $isShowingSafariView, content: {
+//            SafariView(url: URL(string: framework.urlString) ?? URL(string: "www.apple.com")!)
+//            
+//        })
+        
+        .fullScreenCover(isPresented: $isShowingSafariView, content: {
+            SafariView(url: URL(string: framework.urlString) ?? URL(string: "www.apple.com")!)
+            
+        })
     }
 }
 
@@ -54,5 +55,25 @@ struct FrameworkDetailView_Previews: PreviewProvider {
     static var previews: some View {
         FrameworkDetailView(framework: MockData.sampleFramework, isShowingDetailView: .constant(false))
             .preferredColorScheme(.dark)
+    }
+}
+
+struct FrameWorkDetailView: View {
+    
+    let framework: Framework
+    
+    var body: some View {
+        VStack {
+            Image(framework.imageName)
+                .resizable()
+                .frame(width: 90, height: 90)
+            Text(framework.name)
+                .font(.title2)
+                .fontWeight(.semibold)
+                .scaledToFit()
+                .minimumScaleFactor(0.6)
+            Text(framework.description)
+        }
+        .padding()
     }
 }
